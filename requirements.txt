@@ -2,11 +2,15 @@ docx2txt==0.8
 fastapi==0.115.11
 fitz==0.0.1.dev2
 networkx==3.4.2
-nltk==3.9.1
-numpy==2.2.3
+nltk==3.8.1  # Keeping the latest version
+numpy==2.2.3  # Ensure this is compatible with other packages
 protobuf==6.30.0
-pydantic==2.10.6
+pydantic==2.10.6  # Keeping the latest version
 python-dotenv==1.0.1
-python_pptx==1.0.2
-sentence_transformers==3.4.1
+python-pptx==1.0.2
+sentence-transformers==3.4.1
 uvicorn==0.29.0
+google-generativeai==0.5.4
+PyPDF2==3.0.1
+python-multipart==0.0.9
+python-docx==1.1.2
