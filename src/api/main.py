@@ -51,7 +51,53 @@ async def reindex():
     except Exception as e:
         logger.error(f"Error during reindexing: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Reindexing failed: {str(e)}")
+# ... (previous imports and code remain unchanged)
 
+# Existing code up to @app.get("/list_files/") remains the same...
+
+# New endpoint to delete a file
+@app.delete("/delete_file/{filename}")
+async def delete_file(filename: str):
+    """Deletes a file from the upload folder."""
+    try:
+        file_path = os.path.join(UPLOAD_FOLDER, filename)
+        if not os.path.exists(file_path):
+            logger.error(f"File not found for deletion: {file_path}")
+            raise HTTPException(status_code=404, detail="File not found")
+        os.remove(file_path)
+        logger.info(f"File deleted successfully: {filename}")
+        return {"message": f"File {filename} deleted successfully"}
+    except Exception as e:
+        logger.error(f"Error deleting file: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error deleting file: {str(e)}")
+
+# New endpoint to rename a file
+class RenameRequest(BaseModel):
+    old_filename: str
+    new_filename: str
+
+@app.post("/rename_file/")
+async def rename_file(request: RenameRequest):
+    """Renames a file in the upload folder."""
+    try:
+        old_file_path = os.path.join(UPLOAD_FOLDER, request.old_filename)
+        new_file_path = os.path.join(UPLOAD_FOLDER, request.new_filename)
+        
+        if not os.path.exists(old_file_path):
+            logger.error(f"File not found for renaming: {old_file_path}")
+            raise HTTPException(status_code=404, detail="File not found")
+        if os.path.exists(new_file_path):
+            logger.error(f"File with new name already exists: {new_file_path}")
+            raise HTTPException(status_code=400, detail="A file with the new name already exists")
+        
+        os.rename(old_file_path, new_file_path)
+        logger.info(f"File renamed from {request.old_filename} to {request.new_filename}")
+        return {"message": f"File renamed from {request.old_filename} to {request.new_filename}"}
+    except Exception as e:
+        logger.error(f"Error renaming file: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error renaming file: {str(e)}")
+
+# ... (remove the if __name__ == "__main__": block if it exists, as Render doesn't need it)
 @app.post("/upload/")
 async def upload_file(file: UploadFile = File(...)):
     """Handles file uploads."""
