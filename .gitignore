@@ -1,0 +1,32 @@
+# Ignore the virtual environment
+docai-env/
+venv/
+.env
+
+# Ignore Python cache files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore logs and temporary files
+logs/
+*.log
+*.tmp
+
+# Ignore indexed embeddings (if large)
+data/index/
+
+# Ignore VS Code & JetBrains IDE settings
+.vscode/
+.idea/
+
+# Ignore Jupyter Notebook checkpoints (if using)
+.ipynb_checkpoints/
+
+# Ignore node_modules (if using Node.js in frontend)
+node_modules/
+
+# Ignore OS-generated files
+.DS_Store
+Thumbs.db
